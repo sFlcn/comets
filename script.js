@@ -17,21 +17,25 @@ foregroundImage.imageElement.src = './images/planet.png';
 
 const customDotsArray = [
   new aniDot(
-    { x: 1610, y: 62, a: 2.9, f: 3.8, radius: 5, color: 'rgb(366,166,216)' },
+    { x: 1110, y: -5, a: 2.9, f: 8.8, radius: 5, color: 'rgb(366,166,216)' },
     ctx
   ),
   new aniDot(
-    { x: 607, y: 1391, a: -2.1, f: 2.2, radius: 5, color: 'rgb(150,150,249)' },
+    { x: -567, y: 691, a: -2, f: 3, radius: 5, color: 'rgb(150,150,249)' },
     ctx
   ),
   new aniDot(
-    { x: -10, y: -100, a: 0, f: 0, radius: 5, color: 'rgb(50,50,249)' },
+    { x: 1220, y: 1300, a: 10, f: 10, radius: 5, color: 'rgb(50,50,249)' },
+    ctx
+  ),
+  new aniDot(
+    { x: 100, y: 810, a: -2.5, f: 7, radius: 5, color: 'rgb(83,138,134)' },
     ctx
   ),
 ];
 
 const planetDot = new aniDot(
-  { x: 940, y: 407, radius: 50, isStationary: true },
+  { x: 1240, y: 557, radius: 116, isStationary: true },
   ctx
 );
 
