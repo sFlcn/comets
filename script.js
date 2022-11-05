@@ -1,4 +1,5 @@
 import { animatedDots, aniDot } from './dots.js';
+import { starsBlink } from './blink.js';
 
 const canvas = document.querySelector('#comets__canvas');
 const startButton = document.querySelector('#start');
@@ -45,16 +46,28 @@ function getDotsData() {
   return dotsArray;
 };
 
-const asteroidsScreen = new animatedDots({
-  backgroundImage,
-  foregroundImage,
-  dotsArray: getDotsData(),
-  gravityValue: 1,
-  ctx: ctx,
-});
+const asteroidsScreen = new animatedDots(
+  {
+    backgroundImage,
+    foregroundImage,
+    dotsArray: getDotsData(),
+    gravityValue: 1,
+  },
+  ctx
+);
+
+asteroidsScreen.stars = [];
+asteroidsScreen.starsBlink = starsBlink;
+
+asteroidsScreen.animationFn = function animationFn() {
+  asteroidsScreen.drawBackground();
+  asteroidsScreen.drawDots();
+  asteroidsScreen.starsBlink();
+  asteroidsScreen.drawForeground();
+}
 
 startButton.addEventListener('click', () => {
   startButton.blur();
   asteroidsScreen.isAnimatingNow = true;
-  asteroidsScreen.drawDots();
+  asteroidsScreen.animationFn();
 });

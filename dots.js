@@ -24,7 +24,6 @@ export class aniDot {
     this.ctx.fillStyle = this.color;
     this.ctx.fill();
   };
-  // dot.recalc = isStationary ? function(){} : function(fn, an) {
   recalc(fn, an) {
     if (!this.isStationary) {
       const xn = this.f * Math.cos(this.a) + fn * Math.cos(an);
@@ -33,6 +32,10 @@ export class aniDot {
       this.a = Math.atan2(yn, xn);
     }
   };
+  calcXY() {
+    this.x += this.f * Math.cos(this.a);
+    this.y += this.f * Math.sin(this.a);
+  }
 }
 
 export function generateDotsCluster({groupDimension, radius, isGraviCener, groupWidth, groupHeight}, ctx) {
@@ -57,16 +60,20 @@ export function generateDotsCluster({groupDimension, radius, isGraviCener, group
 }
 
 export class animatedDots {
-  constructor({backgroundImage, foregroundImage, dotsArray, gravityValue, ctx}) {
+  constructor({backgroundImage, foregroundImage, dotsArray, gravityValue}, ctx, animationFn) {
     this.backgroundImage = backgroundImage;
     this.foregroundImage = foregroundImage;
     this.dotsArray = dotsArray;
     this.gravityValue = gravityValue;
     this.ctx = ctx;
     this.isAnimatingNow = false;
+    this.animationFn = animationFn ? animationFn : function animationFn() {
+      this.drawBackground();
+      this.drawDots();
+      this.drawForeground();
+    };
   }
-  drawDots() {
-    this.ctx.drawImage(this.backgroundImage.imageElement, 0, 0); // Draw background image
+  calcDotsParams(){
     for (let i = 0; i < this.dotsArray.length; i++) {
       for (let j = i+1; j < this.dotsArray.length; j++) {
         const distance = getDistance(this.dotsArray[i], this.dotsArray[j]);
@@ -77,14 +84,21 @@ export class animatedDots {
         }
       }
     }
+  }
+  drawBackground() {
+    this.ctx.drawImage(this.backgroundImage.imageElement, 0, 0);
+  }
+  drawForeground() {
+    this.ctx.drawImage(this.foregroundImage.imageElement, this.foregroundImage.imageCoordX, this.foregroundImage.imageCoordY);
+  }
+  drawDots() {
+    this.calcDotsParams();
     for (const dot of this.dotsArray) {
-      dot.x += dot.f * Math.cos(dot.a);
-      dot.y += dot.f * Math.sin(dot.a);
+      dot.calcXY();
       dot.draw();
     }
-    this.ctx.drawImage(this.foregroundImage.imageElement, this.foregroundImage.imageCoordX, this.foregroundImage.imageCoordY); // Draw foreground image
     if (this.isAnimatingNow) {
-      setTimeout(() => { window.requestAnimationFrame(this.drawDots.bind(this)) }, 10);
+      setTimeout(() => { window.requestAnimationFrame(this.animationFn.bind(this)) }, 10);
     }
   }
 }
