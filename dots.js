@@ -71,7 +71,13 @@ export class animatedDots {
       this.drawBackground();
       this.drawDots();
       this.drawForeground();
+      this.scheduleAnimation();
     };
+  }
+  scheduleAnimation() {
+    if (this.isAnimatingNow) {
+      setTimeout(() => { window.requestAnimationFrame(this.animationFn.bind(this)) }, 10);
+    }
   }
   calcDotsParams(){
     for (let i = 0; i < this.dotsArray.length; i++) {
@@ -96,9 +102,6 @@ export class animatedDots {
     for (const dot of this.dotsArray) {
       dot.calcXY();
       dot.draw();
-    }
-    if (this.isAnimatingNow) {
-      setTimeout(() => { window.requestAnimationFrame(this.animationFn.bind(this)) }, 10);
     }
   }
 }

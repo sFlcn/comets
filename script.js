@@ -64,6 +64,7 @@ asteroidsScreen.animationFn = function animationFn() {
   asteroidsScreen.drawDots();
   asteroidsScreen.starsBlink();
   asteroidsScreen.drawForeground();
+  asteroidsScreen.scheduleAnimation();
 }
 
 startButton.addEventListener('click', () => {
