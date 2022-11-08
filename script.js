@@ -58,11 +58,12 @@ const asteroidsScreen = new animatedDots(
 
 asteroidsScreen.stars = [];
 asteroidsScreen.starsBlink = starsBlink;
+const starsBlinkBlindArrea = {xCoord: 887, yCoord: 102, xDim: 123, yDim: 123};
 
 asteroidsScreen.animationFn = function animationFn() {
   asteroidsScreen.drawBackground();
   asteroidsScreen.drawDots();
-  asteroidsScreen.starsBlink();
+  asteroidsScreen.starsBlink(2, starsBlinkBlindArrea);
   asteroidsScreen.drawForeground();
   asteroidsScreen.scheduleAnimation();
 }

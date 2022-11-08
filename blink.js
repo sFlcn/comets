@@ -1,8 +1,18 @@
-function makeNewStar() {
+function makeNewStar(blindArrea) {
   const starPower = Math.floor(Math.random() * 150) + 50;
+  let starCoordX, starCoordY;
+  do {
+    starCoordX = Math.floor(Math.random()*1600);
+    starCoordY = Math.floor(Math.random()*800);
+  } while (
+    (starCoordX >= blindArrea.xCoord) &&
+    (starCoordX <= blindArrea.xCoord + blindArrea.xDim) &&
+    (starCoordY >= blindArrea.yCoord) &&
+    (starCoordY <= blindArrea.yCoord + blindArrea.yDim)
+  );
   return {
-    x: Math.floor(Math.random()*1600),
-    y: Math.floor(Math.random()*800),
+    x: starCoordX,
+    y: starCoordY,
     size: 1 + Math.floor(Math.random()*2),
     initPower: starPower,
     power: starPower,
@@ -18,9 +28,10 @@ function drawStar(star) {
   this.ctx.fill();
 }
 
-export function starsBlink() {
-  this.stars.push(makeNewStar());
-  this.stars.push(makeNewStar());
+export function starsBlink(count, blindArrea) {
+  for (let i = 0; i < count; i++) {
+    this.stars.push(makeNewStar(blindArrea));
+  }
   for (let i = this.stars.length - 1; i >= 0; i--) {
     if (this.stars[i].power) {
       drawStar.bind(this)(this.stars[i]);
