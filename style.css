@@ -110,4 +110,6 @@ img {
 .control__button:active {
   opacity: 0.75;
 }
-
+.control__button:disabled {
+  display: none;
+}

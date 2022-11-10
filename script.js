@@ -3,6 +3,7 @@ import { starsBlink } from './blink.js';
 
 const canvas = document.querySelector('#comets__canvas');
 const startButton = document.querySelector('#start');
+const boostButton = document.querySelector('#boost');
 const ctx = canvas.getContext('2d');
 
 const backgroundImage = {
@@ -53,23 +54,37 @@ const asteroidsScreen = new animatedDots(
     dotsArray: getDotsData(),
     gravityValue: 1,
   },
-  ctx
+  ctx,
+  function animationFn() {
+    this.drawBackground();
+    this.starsBlink(2, starsBlinkBlindArrea);
+    this.drawForeground();
+    this.scheduleAnimation();
+  }
 );
 
 asteroidsScreen.stars = [];
 asteroidsScreen.starsBlink = starsBlink;
 const starsBlinkBlindArrea = {xCoord: 887, yCoord: 102, xDim: 123, yDim: 123};
 
-asteroidsScreen.animationFn = function animationFn() {
-  asteroidsScreen.drawBackground();
-  asteroidsScreen.drawDots();
-  asteroidsScreen.starsBlink(2, starsBlinkBlindArrea);
-  asteroidsScreen.drawForeground();
-  asteroidsScreen.scheduleAnimation();
-}
-
 startButton.addEventListener('click', () => {
   startButton.blur();
   asteroidsScreen.isAnimatingNow = true;
+  boostButton.disabled = false;
+  startButton.disabled = true;
+  asteroidsScreen.animationFn = function animationFn() {
+    asteroidsScreen.drawBackground();
+    asteroidsScreen.drawDots();
+    asteroidsScreen.starsBlink(2, starsBlinkBlindArrea);
+    asteroidsScreen.drawForeground();
+    asteroidsScreen.scheduleAnimation();
+  }
+});
+
+boostButton.addEventListener('click', () => {
+  boostButton.blur();
   asteroidsScreen.animationFn();
 });
+
+asteroidsScreen.isAnimatingNow = true;
+asteroidsScreen.animationFn();

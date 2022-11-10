@@ -13,7 +13,7 @@ function makeNewStar(blindArrea) {
   return {
     x: starCoordX,
     y: starCoordY,
-    size: 1 + Math.floor(Math.random()*2),
+    size: Math.random() * 2,
     initPower: starPower,
     power: starPower,
   };
