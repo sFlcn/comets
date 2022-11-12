@@ -2,6 +2,7 @@ import { animatedDots, aniDot } from './dots.js';
 import { starsBlink } from './blink.js';
 
 const canvas = document.querySelector('#comets__canvas');
+const appHeader = document.querySelector('.comets__header');
 const startButton = document.querySelector('#start');
 const boostButton = document.querySelector('#boost');
 const ctx = canvas.getContext('2d');
@@ -67,24 +68,33 @@ asteroidsScreen.stars = [];
 asteroidsScreen.starsBlink = starsBlink;
 const starsBlinkBlindArrea = {xCoord: 887, yCoord: 102, xDim: 123, yDim: 123};
 
-startButton.addEventListener('click', () => {
-  startButton.blur();
+function onAppLoad() {
   asteroidsScreen.isAnimatingNow = true;
-  boostButton.disabled = false;
-  startButton.disabled = true;
-  asteroidsScreen.animationFn = function animationFn() {
-    asteroidsScreen.drawBackground();
-    asteroidsScreen.drawDots();
-    asteroidsScreen.starsBlink(2, starsBlinkBlindArrea);
-    asteroidsScreen.drawForeground();
-    asteroidsScreen.scheduleAnimation();
-  }
-});
-
-boostButton.addEventListener('click', () => {
-  boostButton.blur();
   asteroidsScreen.animationFn();
-});
+  window.removeEventListener('load', onAppLoad);
 
-asteroidsScreen.isAnimatingNow = true;
-asteroidsScreen.animationFn();
+  appHeader.classList.remove('comets__header--loading');
+  startButton.classList.remove('control__button--loading');
+  startButton.textContent = 'Start';
+
+  startButton.addEventListener('click', () => {
+    startButton.blur();
+    asteroidsScreen.isAnimatingNow = true;
+    boostButton.disabled = false;
+    startButton.disabled = true;
+    asteroidsScreen.animationFn = function animationFn() {
+      asteroidsScreen.drawBackground();
+      asteroidsScreen.drawDots();
+      asteroidsScreen.starsBlink(2, starsBlinkBlindArrea);
+      asteroidsScreen.drawForeground();
+      asteroidsScreen.scheduleAnimation();
+    }
+  });
+
+  boostButton.addEventListener('click', () => {
+    boostButton.blur();
+    asteroidsScreen.animationFn();
+  });
+}
+
+window.addEventListener('load', onAppLoad);
