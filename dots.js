@@ -92,7 +92,7 @@ export class animatedDots {
     }
   }
   drawBackground() {
-    this.ctx.drawImage(this.backgroundImage.imageElement, 0, 0);
+    this.ctx.drawImage(this.backgroundImage.imageElement, this.backgroundImage.imageCoordX, this.backgroundImage.imageCoordY);
   }
   drawForeground() {
     this.ctx.drawImage(this.foregroundImage.imageElement, this.foregroundImage.imageCoordX, this.foregroundImage.imageCoordY);

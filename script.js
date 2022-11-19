@@ -1,50 +1,67 @@
-import { animatedDots, aniDot } from './dots.js';
+import { aniDot, animatedDots } from './dots.js';
 import { starsBlink } from './blink.js';
+import { desktopDotsArray, desktopPlanetDot } from './stellars.js';
 
 const canvas = document.querySelector('#comets__canvas');
+const ctx = canvas.getContext('2d');
 const appHeader = document.querySelector('.comets__header');
 const startButton = document.querySelector('#start');
 const boostButton = document.querySelector('#boost');
-const ctx = canvas.getContext('2d');
+
+const appWindow = {
+  width: document.documentElement.clientWidth - 10,
+  height: document.documentElement.clientHeight - 10,
+  mode:
+    (document.documentElement.clientWidth > 1200) ? 'desktop' :
+    (document.documentElement.clientWidth > 660) ? 'tablet' : 'mobile'
+};
+
+canvas.setAttribute('width', `${appWindow.width}`);
+canvas.setAttribute('height', `${appWindow.height}`);
+const starsBlinkColorArr = [135, 132, 227];
+const starsArreaDimensions = {width: appWindow.width, height: appWindow.height};
+let starsBlinkBlindArrea;
 
 const backgroundImage = {
-  imageElement: new Image(),
+  imageElement: new Image()
 };
-backgroundImage.imageElement.src = './images/space-tr.png';
-const foregroundImage = {
-  imageElement: new Image(),
-  imageCoordX: 908,
-  imageCoordY: 225,
-};
-foregroundImage.imageElement.src = './images/planet.png';
-
-const customDotsArray = [
-  new aniDot(
-    { x: 1110, y: -5, a: 2.9, f: 8.8, radius: 5, color: 'rgb(366,166,216)' },
-    ctx
-  ),
-  new aniDot(
-    { x: -567, y: 691, a: -2, f: 3, radius: 5, color: 'rgb(150,150,249)' },
-    ctx
-  ),
-  new aniDot(
-    { x: 1220, y: 1300, a: 10, f: 10, radius: 5, color: 'rgb(50,50,249)' },
-    ctx
-  ),
-  new aniDot(
-    { x: 100, y: 810, a: -2.5, f: 7, radius: 5, color: 'rgb(83,138,134)' },
-    ctx
-  ),
-];
-
-const planetDot = new aniDot(
-  { x: 1240, y: 557, radius: 116, isStationary: true },
-  ctx
+backgroundImage.imageElement.src = (
+  (appWindow.mode === 'mobile') ? './images/space-tr-mobile.webp' :
+  (appWindow.mode === 'tablet') ? './images/space-tr-tablet.webp' : './images/space-tr-desktop.webp'
 );
+backgroundImage.imageElement.onload = function() {
+  backgroundImage.imageCoordX = (appWindow.width - backgroundImage.imageElement.width) / 2;
+  backgroundImage.imageCoordY = (appWindow.height - backgroundImage.imageElement.height) / 2;
+  starsBlinkBlindArrea = (
+  (appWindow.mode === 'mobile') ? {xCoord: 887, yCoord: 102, xDim: 123, yDim: 123} :
+  (appWindow.mode === 'tablet') ? {xCoord: 887, yCoord: 102, xDim: 123, yDim: 123} :
+  {xCoord: backgroundImage.imageCoordX + 1125, yCoord: backgroundImage.imageCoordY + 254, xDim: 123, yDim: 123});
+}
+
+const foregroundImage = {
+  imageElement: new Image()
+};
+foregroundImage.imageElement.src = (
+  (appWindow.mode === 'mobile') ? './images/planet-mobile.webp' :
+  (appWindow.mode === 'tablet') ? './images/planet-tablet.webp' : './images/planet-desktop.webp'
+);
+foregroundImage.imageElement.onload = function() {
+  foregroundImage.imageCoordX = (
+    (appWindow.mode === 'mobile') ? 908 :
+    (appWindow.mode === 'tablet') ? 908 : (appWindow.width / 2 + 108)
+  );
+  foregroundImage.imageCoordY = (
+    (appWindow.mode === 'mobile') ? 908 :
+    (appWindow.mode === 'tablet') ? 908 : (appWindow.height / 2 - 175)
+  );
+}
 
 function getDotsData() {
-  let dotsArray = customDotsArray.slice(0);
-  dotsArray.push(planetDot);
+  const dotsArray = [];
+  for (let i = 0; i < desktopDotsArray.length; i++) {
+    dotsArray.push(new aniDot(desktopDotsArray[i], ctx));
+  }
+  dotsArray.push(new aniDot(desktopPlanetDot, ctx));
   return dotsArray;
 };
 
@@ -58,7 +75,7 @@ const asteroidsScreen = new animatedDots(
   ctx,
   function animationFn() {
     this.drawBackground();
-    this.starsBlink(2, starsBlinkBlindArrea);
+    this.starsBlink(3, starsArreaDimensions, starsBlinkBlindArrea, starsBlinkColorArr);
     this.drawForeground();
     this.scheduleAnimation();
   }
@@ -66,7 +83,6 @@ const asteroidsScreen = new animatedDots(
 
 asteroidsScreen.stars = [];
 asteroidsScreen.starsBlink = starsBlink;
-const starsBlinkBlindArrea = {xCoord: 887, yCoord: 102, xDim: 123, yDim: 123};
 
 function onAppLoad() {
   asteroidsScreen.isAnimatingNow = true;
@@ -85,7 +101,7 @@ function onAppLoad() {
     asteroidsScreen.animationFn = function animationFn() {
       asteroidsScreen.drawBackground();
       asteroidsScreen.drawDots();
-      asteroidsScreen.starsBlink(2, starsBlinkBlindArrea);
+      asteroidsScreen.starsBlink(1, starsArreaDimensions, starsBlinkBlindArrea, starsBlinkColorArr);
       asteroidsScreen.drawForeground();
       asteroidsScreen.scheduleAnimation();
     }

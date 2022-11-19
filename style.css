@@ -47,7 +47,6 @@ img {
   align-items: center;
   justify-items: center;
   gap: 10px;
-  text-align: center;
 }
 
 .comets {
@@ -57,15 +56,18 @@ img {
 .comets__side {
   position: absolute;
   left: 92px;
-  top: 346px;
+  bottom: calc(50% - 250px);
+  /* bottom: 177px; */
   z-index: 2;
+  text-align: left;
 }
 
 .comets__header {
-  width: 791px;
-  height: 79px;
-  margin-bottom: 68px;
+  width: 380px;
+  height: 169px;
+  margin-bottom: 62px;
   background: url("./images/comets-starter-title.svg") no-repeat center;
+  background-size: contain;
   transition: filter 0.65s ease-in;
 }
 .comets__header--loading {
@@ -75,9 +77,6 @@ img {
 .comets__canvas-container {
   font-size: 0;
   line-height: 0;
-  background:
-    url("./images/planet.png") no-repeat left 908px top 225px,
-    url("./images/space-tr.png") no-repeat center;
 }
 
 #comets__canvas {
