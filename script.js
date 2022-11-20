@@ -12,48 +12,52 @@ const appWindow = {
   width: document.documentElement.clientWidth - 10,
   height: document.documentElement.clientHeight - 10,
   mode:
-    (document.documentElement.clientWidth > 1200) ? 'desktop' :
-    (document.documentElement.clientWidth > 660) ? 'tablet' : 'mobile'
+    (document.documentElement.clientWidth >= 1200) ? 'desktop' :
+    (document.documentElement.clientWidth >= 660) ? 'tablet' : 'mobile'
 };
 
 canvas.setAttribute('width', `${appWindow.width}`);
 canvas.setAttribute('height', `${appWindow.height}`);
 const starsBlinkColorArr = [135, 132, 227];
 const starsArreaDimensions = {width: appWindow.width, height: appWindow.height};
+const backgroundImage = { imageElement: new Image() };
+const foregroundImage = { imageElement: new Image() };
 let starsBlinkBlindArrea;
 
-const backgroundImage = {
-  imageElement: new Image()
-};
-backgroundImage.imageElement.src = (
-  (appWindow.mode === 'mobile') ? './images/space-tr-mobile.webp' :
-  (appWindow.mode === 'tablet') ? './images/space-tr-tablet.webp' : './images/space-tr-desktop.webp'
-);
+switch (appWindow.mode) {
+  case 'mobile':
+    backgroundImage.imageElement.src = './images/space-tr-mobile.webp';
+    starsBlinkBlindArrea = {xCoord: 229, yCoord: 114, xDim: 57, yDim: 57};
+    foregroundImage.imageElement.src = './images/planet-mobile.webp';
+    foregroundImage.imageCoordX = -21;
+    foregroundImage.imageCoordY = -142;
+    break;
+  case 'tablet':
+    backgroundImage.imageElement.src = './images/space-tr-tablet.webp';
+    starsBlinkBlindArrea = {xCoord: 409, yCoord: 292, xDim: 123, yDim: 123};
+    foregroundImage.imageElement.src = './images/planet-tablet.webp';
+    foregroundImage.imageCoordX = 0;
+    foregroundImage.imageCoordY = -285;
+    break;
+  default:
+    backgroundImage.imageElement.src = './images/space-tr-desktop.webp';
+    starsBlinkBlindArrea = {xCoord: 1125, yCoord: 254, xDim: 123, yDim: 123};
+    foregroundImage.imageElement.src = './images/planet-desktop.webp';
+    foregroundImage.imageCoordX = 108;
+    foregroundImage.imageCoordY = -175;
+    break;
+}
+
 backgroundImage.imageElement.onload = function() {
   backgroundImage.imageCoordX = (appWindow.width - backgroundImage.imageElement.width) / 2;
   backgroundImage.imageCoordY = (appWindow.height - backgroundImage.imageElement.height) / 2;
-  starsBlinkBlindArrea = (
-  (appWindow.mode === 'mobile') ? {xCoord: 887, yCoord: 102, xDim: 123, yDim: 123} :
-  (appWindow.mode === 'tablet') ? {xCoord: 887, yCoord: 102, xDim: 123, yDim: 123} :
-  {xCoord: backgroundImage.imageCoordX + 1125, yCoord: backgroundImage.imageCoordY + 254, xDim: 123, yDim: 123});
+  starsBlinkBlindArrea.xCoord += backgroundImage.imageCoordX;
+  starsBlinkBlindArrea.yCoord += backgroundImage.imageCoordY;
 }
 
-const foregroundImage = {
-  imageElement: new Image()
-};
-foregroundImage.imageElement.src = (
-  (appWindow.mode === 'mobile') ? './images/planet-mobile.webp' :
-  (appWindow.mode === 'tablet') ? './images/planet-tablet.webp' : './images/planet-desktop.webp'
-);
 foregroundImage.imageElement.onload = function() {
-  foregroundImage.imageCoordX = (
-    (appWindow.mode === 'mobile') ? 908 :
-    (appWindow.mode === 'tablet') ? 908 : (appWindow.width / 2 + 108)
-  );
-  foregroundImage.imageCoordY = (
-    (appWindow.mode === 'mobile') ? 908 :
-    (appWindow.mode === 'tablet') ? 908 : (appWindow.height / 2 - 175)
-  );
+  foregroundImage.imageCoordX += appWindow.width / 2;
+  foregroundImage.imageCoordY += appWindow.height / 2;
 }
 
 function getDotsData() {

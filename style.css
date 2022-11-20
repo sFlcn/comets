@@ -57,9 +57,29 @@ img {
   position: absolute;
   left: 92px;
   bottom: calc(50% - 250px);
-  /* bottom: 177px; */
   z-index: 2;
   text-align: left;
+}
+
+@media (max-width: 1199px) {
+  .comets__side {
+    left: 75px;
+    bottom: 63px;
+  }
+}
+
+@media (max-width: 659px) {
+  .comets__side {
+    left: 24px;
+    bottom: 50px;
+  }
+}
+
+@media (max-width: 350px) {
+  .comets__side {
+    left: 12px;
+    bottom: 20px;
+  }
 }
 
 .comets__header {
@@ -70,6 +90,29 @@ img {
   background-size: contain;
   transition: filter 0.65s ease-in;
 }
+
+@media (max-width: 1199px) {
+  .comets__header {
+    margin-bottom: 52px;
+  }
+}
+
+@media (max-width: 659px) {
+  .comets__header {
+    width: 267px;
+    height: 126px;
+    margin-bottom: 47px;
+  }
+}
+
+@media (max-width: 350px) {
+  .comets__header {
+    width: 177px;
+    height: 83px;
+    margin-bottom: 22px;
+  }
+}
+
 .comets__header--loading {
   filter: blur(5px) hue-rotate(-70deg) opacity(75%);
 }
