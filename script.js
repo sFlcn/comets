@@ -1,6 +1,6 @@
 import { aniDot, animatedDots } from './dots.js';
 import { starsBlink } from './blink.js';
-import { desktopDotsArray, desktopPlanetDot } from './stellars.js';
+import { dotsArrayVariants, planetDotVariants } from './stellars.js';
 
 const canvas = document.querySelector('#comets__canvas');
 const ctx = canvas.getContext('2d');
@@ -22,8 +22,11 @@ const starsBlinkColorArr = [135, 132, 227];
 const starsArreaDimensions = {width: appWindow.width, height: appWindow.height};
 const backgroundImage = { imageElement: new Image() };
 const foregroundImage = { imageElement: new Image() };
+let appDotsArray;
+let appPlanetDot;
 let starsBlinkBlindArrea;
 
+// coordinates here depend on the background image
 switch (appWindow.mode) {
   case 'mobile':
     backgroundImage.imageElement.src = './images/space-tr-mobile.webp';
@@ -31,6 +34,8 @@ switch (appWindow.mode) {
     foregroundImage.imageElement.src = './images/planet-mobile.webp';
     foregroundImage.imageCoordX = -21;
     foregroundImage.imageCoordY = -142;
+    appDotsArray = dotsArrayVariants.mobile;
+    appPlanetDot = planetDotVariants.mobile;
     break;
   case 'tablet':
     backgroundImage.imageElement.src = './images/space-tr-tablet.webp';
@@ -38,6 +43,8 @@ switch (appWindow.mode) {
     foregroundImage.imageElement.src = './images/planet-tablet.webp';
     foregroundImage.imageCoordX = 0;
     foregroundImage.imageCoordY = -285;
+    appDotsArray = dotsArrayVariants.tablet;
+    appPlanetDot = planetDotVariants.tablet;
     break;
   default:
     backgroundImage.imageElement.src = './images/space-tr-desktop.webp';
@@ -45,8 +52,13 @@ switch (appWindow.mode) {
     foregroundImage.imageElement.src = './images/planet-desktop.webp';
     foregroundImage.imageCoordX = 108;
     foregroundImage.imageCoordY = -175;
+    appDotsArray = dotsArrayVariants.desktop;
+    appPlanetDot = planetDotVariants.desktop;
     break;
 }
+
+appPlanetDot.x += appWindow.width / 2;
+appPlanetDot.y += appWindow.height / 2;
 
 backgroundImage.imageElement.onload = function() {
   backgroundImage.imageCoordX = (appWindow.width - backgroundImage.imageElement.width) / 2;
@@ -62,10 +74,10 @@ foregroundImage.imageElement.onload = function() {
 
 function getDotsData() {
   const dotsArray = [];
-  for (let i = 0; i < desktopDotsArray.length; i++) {
-    dotsArray.push(new aniDot(desktopDotsArray[i], ctx));
+  for (let i = 0; i < appDotsArray.length; i++) {
+    dotsArray.push(new aniDot(appDotsArray[i], ctx));
   }
-  dotsArray.push(new aniDot(desktopPlanetDot, ctx));
+  dotsArray.push(new aniDot(appPlanetDot, ctx));
   return dotsArray;
 };
 
@@ -118,3 +130,6 @@ function onAppLoad() {
 }
 
 window.addEventListener('load', onAppLoad);
+document.addEventListener('keydown', (evt) => {
+  if (evt.key === 'Escape' || evt.key === 'Esc') console.log(asteroidsScreen)
+});

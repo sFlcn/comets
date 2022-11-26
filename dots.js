@@ -76,7 +76,7 @@ export class animatedDots {
   }
   scheduleAnimation() {
     if (this.isAnimatingNow) {
-      setTimeout(() => { window.requestAnimationFrame(this.animationFn.bind(this)) }, 10);
+      setTimeout(() => { window.requestAnimationFrame(this.animationFn.bind(this)) }, 15);
     }
   }
   calcDotsParams(){
