@@ -2,7 +2,7 @@ import { aniDot, animatedDots } from './dots.js';
 import { starsBlink } from './blink.js';
 import { dotsArrayVariants, planetDotVariants } from './stellars.js';
 
-const canvas = document.querySelector('#comets__canvas');
+const canvas = document.querySelector('#comets-canvas');
 const ctx = canvas.getContext('2d');
 const appHeader = document.querySelector('.comets__header');
 const startButton = document.querySelector('#start');
