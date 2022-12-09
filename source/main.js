@@ -1,6 +1,6 @@
-import { aniDot, animatedDots } from './dots.js';
-import { starsBlink } from './blink.js';
-import { dotsArrayVariants, planetDotVariants } from './stellars.js';
+import { AniDot, AnimatedDots } from './dots';
+import starsBlink from './blink';
+import { dotsArrayVariants, planetDotVariants } from './stellars';
 
 const canvas = document.querySelector('#comets-canvas');
 const ctx = canvas.getContext('2d');
@@ -11,15 +11,19 @@ const boostButton = document.querySelector('#boost');
 const appWindow = {
   width: document.documentElement.clientWidth - 10,
   height: document.documentElement.clientHeight - 10,
-  mode:
-    (document.documentElement.clientWidth >= 1200) ? 'desktop' :
-    (document.documentElement.clientWidth >= 660) ? 'tablet' : 'mobile'
+  mode: 'desktop',
 };
+
+if (document.documentElement.clientWidth < 660) {
+  appWindow.mode = 'mobile';
+} else if (document.documentElement.clientWidth < 1200) {
+  appWindow.mode = 'tablet';
+}
 
 canvas.setAttribute('width', `${appWindow.width}`);
 canvas.setAttribute('height', `${appWindow.height}`);
 const starsBlinkColorArr = [135, 132, 227];
-const starsArreaDimensions = {width: appWindow.width, height: appWindow.height};
+const starsArreaDimensions = { width: appWindow.width, height: appWindow.height };
 const backgroundImage = { imageElement: new Image() };
 const foregroundImage = { imageElement: new Image() };
 let appDotsArray;
@@ -30,7 +34,9 @@ let starsBlinkBlindArrea;
 switch (appWindow.mode) {
   case 'mobile':
     backgroundImage.imageElement.src = './images/space-tr-mobile.webp';
-    starsBlinkBlindArrea = {xCoord: 229, yCoord: 114, xDim: 57, yDim: 57};
+    starsBlinkBlindArrea = {
+      xCoord: 229, yCoord: 114, xDim: 57, yDim: 57,
+    };
     foregroundImage.imageElement.src = './images/planet-mobile.webp';
     foregroundImage.imageCoordX = -21;
     foregroundImage.imageCoordY = -142;
@@ -39,7 +45,9 @@ switch (appWindow.mode) {
     break;
   case 'tablet':
     backgroundImage.imageElement.src = './images/space-tr-tablet.webp';
-    starsBlinkBlindArrea = {xCoord: 409, yCoord: 292, xDim: 123, yDim: 123};
+    starsBlinkBlindArrea = {
+      xCoord: 409, yCoord: 292, xDim: 123, yDim: 123,
+    };
     foregroundImage.imageElement.src = './images/planet-tablet.webp';
     foregroundImage.imageCoordX = 0;
     foregroundImage.imageCoordY = -285;
@@ -48,7 +56,9 @@ switch (appWindow.mode) {
     break;
   default:
     backgroundImage.imageElement.src = './images/space-tr-desktop.webp';
-    starsBlinkBlindArrea = {xCoord: 1125, yCoord: 254, xDim: 123, yDim: 123};
+    starsBlinkBlindArrea = {
+      xCoord: 1125, yCoord: 254, xDim: 123, yDim: 123,
+    };
     foregroundImage.imageElement.src = './images/planet-desktop.webp';
     foregroundImage.imageCoordX = 108;
     foregroundImage.imageCoordY = -175;
@@ -60,28 +70,28 @@ switch (appWindow.mode) {
 appPlanetDot.x += appWindow.width / 2;
 appPlanetDot.y += appWindow.height / 2;
 
-backgroundImage.imageElement.onload = function() {
+backgroundImage.imageElement.onload = () => {
   backgroundImage.imageCoordX = (appWindow.width - backgroundImage.imageElement.width) / 2;
   backgroundImage.imageCoordY = (appWindow.height - backgroundImage.imageElement.height) / 2;
   starsBlinkBlindArrea.xCoord += backgroundImage.imageCoordX;
   starsBlinkBlindArrea.yCoord += backgroundImage.imageCoordY;
-}
+};
 
-foregroundImage.imageElement.onload = function() {
+foregroundImage.imageElement.onload = () => {
   foregroundImage.imageCoordX += appWindow.width / 2;
   foregroundImage.imageCoordY += appWindow.height / 2;
-}
+};
 
 function getDotsData() {
   const dotsArray = [];
-  for (let i = 0; i < appDotsArray.length; i++) {
-    dotsArray.push(new aniDot(appDotsArray[i], ctx));
+  for (let i = 0; i < appDotsArray.length; i += 1) {
+    dotsArray.push(new AniDot(appDotsArray[i], ctx));
   }
-  dotsArray.push(new aniDot(appPlanetDot, ctx));
+  dotsArray.push(new AniDot(appPlanetDot, ctx));
   return dotsArray;
-};
+}
 
-const asteroidsScreen = new animatedDots(
+const asteroidsScreen = new AnimatedDots(
   {
     backgroundImage,
     foregroundImage,
@@ -94,7 +104,7 @@ const asteroidsScreen = new animatedDots(
     this.starsBlink(3, starsArreaDimensions, starsBlinkBlindArrea, starsBlinkColorArr);
     this.drawForeground();
     this.scheduleAnimation();
-  }
+  },
 );
 
 asteroidsScreen.stars = [];
@@ -120,7 +130,7 @@ function onAppLoad() {
       asteroidsScreen.starsBlink(1, starsArreaDimensions, starsBlinkBlindArrea, starsBlinkColorArr);
       asteroidsScreen.drawForeground();
       asteroidsScreen.scheduleAnimation();
-    }
+    };
   });
 
   boostButton.addEventListener('click', () => {
@@ -131,5 +141,6 @@ function onAppLoad() {
 
 window.addEventListener('load', onAppLoad);
 document.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape' || evt.key === 'Esc') console.log(asteroidsScreen)
+  // eslint-disable-next-line no-console
+  if (evt.key === 'Escape' || evt.key === 'Esc') console.log(asteroidsScreen);
 });
