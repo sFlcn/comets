@@ -33,33 +33,33 @@ let starsBlinkBlindArrea;
 // coordinates here depend on the background image
 switch (appWindow.mode) {
   case 'mobile':
-    backgroundImage.imageElement.src = './images/space-tr-mobile.webp';
+    backgroundImage.imageElement.src = 'images/space-tr-mobile.webp';
     starsBlinkBlindArrea = {
       xCoord: 229, yCoord: 114, xDim: 57, yDim: 57,
     };
-    foregroundImage.imageElement.src = './images/planet-mobile.webp';
+    foregroundImage.imageElement.src = 'images/planet-mobile.webp';
     foregroundImage.imageCoordX = -21;
     foregroundImage.imageCoordY = -142;
     appDotsArray = dotsArrayVariants.mobile;
     appPlanetDot = planetDotVariants.mobile;
     break;
   case 'tablet':
-    backgroundImage.imageElement.src = './images/space-tr-tablet.webp';
+    backgroundImage.imageElement.src = 'images/space-tr-tablet.webp';
     starsBlinkBlindArrea = {
       xCoord: 409, yCoord: 292, xDim: 123, yDim: 123,
     };
-    foregroundImage.imageElement.src = './images/planet-tablet.webp';
+    foregroundImage.imageElement.src = 'images/planet-tablet.webp';
     foregroundImage.imageCoordX = 0;
     foregroundImage.imageCoordY = -285;
     appDotsArray = dotsArrayVariants.tablet;
     appPlanetDot = planetDotVariants.tablet;
     break;
   default:
-    backgroundImage.imageElement.src = './images/space-tr-desktop.webp';
+    backgroundImage.imageElement.src = 'images/space-tr-desktop.webp';
     starsBlinkBlindArrea = {
       xCoord: 1125, yCoord: 254, xDim: 123, yDim: 123,
     };
-    foregroundImage.imageElement.src = './images/planet-desktop.webp';
+    foregroundImage.imageElement.src = 'images/planet-desktop.webp';
     foregroundImage.imageCoordX = 108;
     foregroundImage.imageCoordY = -175;
     appDotsArray = dotsArrayVariants.desktop;
