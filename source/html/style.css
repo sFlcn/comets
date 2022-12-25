@@ -127,6 +127,7 @@ img {
 }
 
 .control__button {
+  min-width: 140px;
   padding: 12px 28px;
   font-family: inherit;
   font-style: normal;
