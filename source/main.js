@@ -29,11 +29,15 @@ const foregroundImage = { imageElement: new Image() };
 let appDotsArray;
 let appPlanetDot;
 let starsBlinkBlindArrea;
+let starMaxSize;
+let starsCountIncrease;
 
 // coordinates here depend on the background image
 switch (appWindow.mode) {
   case 'mobile':
     backgroundImage.imageElement.src = 'images/space-tr-mobile.png';
+    starMaxSize = 1.3;
+    starsCountIncrease = 1;
     starsBlinkBlindArrea = {
       xCoord: 229, yCoord: 114, xDim: 57, yDim: 57,
     };
@@ -45,6 +49,8 @@ switch (appWindow.mode) {
     break;
   case 'tablet':
     backgroundImage.imageElement.src = 'images/space-tr-tablet.png';
+    starMaxSize = 1.8;
+    starsCountIncrease = 1;
     starsBlinkBlindArrea = {
       xCoord: 409, yCoord: 292, xDim: 123, yDim: 123,
     };
@@ -56,6 +62,8 @@ switch (appWindow.mode) {
     break;
   default:
     backgroundImage.imageElement.src = 'images/space-tr-desktop.png';
+    starMaxSize = 2.2;
+    starsCountIncrease = 2;
     starsBlinkBlindArrea = {
       xCoord: 1125, yCoord: 254, xDim: 123, yDim: 123,
     };
@@ -101,7 +109,13 @@ const asteroidsScreen = new AnimatedDots(
   ctx,
   function animationFn() {
     this.drawBackground();
-    this.starsBlink(3, starsArreaDimensions, starsBlinkBlindArrea, starsBlinkColorArr);
+    this.starsBlink(
+      starsCountIncrease,
+      starsArreaDimensions,
+      starsBlinkBlindArrea,
+      starsBlinkColorArr,
+      starMaxSize,
+    );
     this.drawForeground();
     this.scheduleAnimation();
   },
@@ -127,7 +141,13 @@ function onAppLoad() {
     asteroidsScreen.animationFn = function animationFn() {
       asteroidsScreen.drawBackground();
       asteroidsScreen.drawDots();
-      asteroidsScreen.starsBlink(1, starsArreaDimensions, starsBlinkBlindArrea, starsBlinkColorArr);
+      asteroidsScreen.starsBlink(
+        starsCountIncrease,
+        starsArreaDimensions,
+        starsBlinkBlindArrea,
+        starsBlinkColorArr,
+        starMaxSize,
+      );
       asteroidsScreen.drawForeground();
       asteroidsScreen.scheduleAnimation();
     };

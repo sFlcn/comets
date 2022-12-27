@@ -1,4 +1,4 @@
-function makeNewStar(arreaDimensions, blindArrea) {
+function makeNewStar(arreaDimensions, blindArrea, maxSize) {
   const starPower = Math.floor(Math.random() * 150) + 50;
   let starCoordX;
   let starCoordY;
@@ -14,7 +14,7 @@ function makeNewStar(arreaDimensions, blindArrea) {
   return {
     x: starCoordX,
     y: starCoordY,
-    size: Math.random() * 2,
+    size: Math.random() * maxSize,
     initPower: starPower,
     power: starPower,
   };
@@ -37,9 +37,10 @@ export default function starsBlink(
   arreaDimensions,
   blindArrea,
   starColor = [255, 255, 255],
+  starMaxSize = 2,
 ) {
   for (let i = 0; i < count; i += 1) {
-    this.stars.push(makeNewStar(arreaDimensions, blindArrea));
+    this.stars.push(makeNewStar(arreaDimensions, blindArrea, starMaxSize));
   }
   for (let i = this.stars.length - 1; i >= 0; i -= 1) {
     if (this.stars[i].power) {
