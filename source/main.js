@@ -2,6 +2,15 @@ import { AniDot, AnimatedDots } from './dots';
 import starsBlink from './blink';
 import { dotsArrayVariants, planetDotVariants } from './stellars';
 
+// webpack imports
+import './css/style.css';
+import PlanetDesktop from './images/planet-desktop.png';
+import PlanetTablet from './images/planet-tablet.png';
+import PlanetMobile from './images/planet-mobile.png';
+import SpaceDesktop from './images/space-tr-desktop.png';
+import SpaceTablet from './images/space-tr-tablet.png';
+import SpaceMobile from './images/space-tr-mobile.png';
+
 const canvas = document.querySelector('#comets-canvas');
 const ctx = canvas.getContext('2d');
 const appHeader = document.querySelector('.comets__header');
@@ -14,9 +23,9 @@ const appWindow = {
   mode: 'desktop',
 };
 
-if (document.documentElement.clientWidth < 660) {
+if (appWindow.width < 670) {
   appWindow.mode = 'mobile';
-} else if (document.documentElement.clientWidth < 1200) {
+} else if (appWindow.width < 1210) {
   appWindow.mode = 'tablet';
 }
 
@@ -35,39 +44,39 @@ let starsCountIncrease;
 // coordinates here depend on the background image
 switch (appWindow.mode) {
   case 'mobile':
-    backgroundImage.imageElement.src = 'images/space-tr-mobile.png';
+    backgroundImage.imageElement.src = SpaceMobile;
     starMaxSize = 1.3;
     starsCountIncrease = 1;
     starsBlinkBlindArrea = {
       xCoord: 229, yCoord: 114, xDim: 57, yDim: 57,
     };
-    foregroundImage.imageElement.src = 'images/planet-mobile.png';
+    foregroundImage.imageElement.src = PlanetMobile;
     foregroundImage.imageCoordX = -21;
     foregroundImage.imageCoordY = -142;
     appDotsArray = dotsArrayVariants.mobile;
     appPlanetDot = planetDotVariants.mobile;
     break;
   case 'tablet':
-    backgroundImage.imageElement.src = 'images/space-tr-tablet.png';
+    backgroundImage.imageElement.src = SpaceTablet;
     starMaxSize = 1.8;
     starsCountIncrease = 1;
     starsBlinkBlindArrea = {
       xCoord: 409, yCoord: 292, xDim: 123, yDim: 123,
     };
-    foregroundImage.imageElement.src = 'images/planet-tablet.png';
+    foregroundImage.imageElement.src = PlanetTablet;
     foregroundImage.imageCoordX = 0;
     foregroundImage.imageCoordY = -285;
     appDotsArray = dotsArrayVariants.tablet;
     appPlanetDot = planetDotVariants.tablet;
     break;
   default:
-    backgroundImage.imageElement.src = 'images/space-tr-desktop.png';
+    backgroundImage.imageElement.src = SpaceDesktop;
     starMaxSize = 2.2;
     starsCountIncrease = 2;
     starsBlinkBlindArrea = {
       xCoord: 1125, yCoord: 254, xDim: 123, yDim: 123,
     };
-    foregroundImage.imageElement.src = 'images/planet-desktop.png';
+    foregroundImage.imageElement.src = PlanetDesktop;
     foregroundImage.imageCoordX = 108;
     foregroundImage.imageCoordY = -175;
     appDotsArray = dotsArrayVariants.desktop;
